@@ -81,11 +81,9 @@ public class BesedaRepository {
             @Override
             public void onError(VKError error) {
                 onFinishedListener.onError(error.errorMessage);
-
             }
         });
     }
-
 
 
 }

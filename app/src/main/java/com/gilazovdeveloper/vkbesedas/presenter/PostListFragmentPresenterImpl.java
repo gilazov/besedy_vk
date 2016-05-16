@@ -103,7 +103,6 @@ public class PostListFragmentPresenterImpl implements PostListFragmentPresenter,
                 view.setInfiniteEnable(false);
                 break;
         }
-
         view.showProgress(false);
     }
 

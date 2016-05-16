@@ -41,10 +41,12 @@ public class VkService {
 
         VKRequest getChatsRequest = new VKRequest("execute.getChats", VKParameters.from(COUNT, CHATS_COUNT, OFFSET, offset));
         getChatsRequest.executeWithListener(new VKRequest.VKRequestListener() {
+
             @Override
             public void onError(VKError error) {
                 super.onError(error);
                 listener.onError(error);
+                Log.d("TAG", "onError: " + error.toString());
             }
 
             @Override
@@ -86,7 +88,6 @@ public class VkService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
                 listener.onComplete(resultList);
             }
