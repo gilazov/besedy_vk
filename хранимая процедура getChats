@@ -1,0 +1,80 @@
+//фотки беседы если есть, тогда они приходят,
+//если фоток нет, тогда видимо доступа нет, и приходит  beseda_photos = null;
+//к участникам беседы нет
+
+var dialogs = API.messages.getDialogs({
+    count: 200
+}).items;
+
+
+if (dialogs.length == 0) {
+    return {};
+}
+
+var chats = [];
+var besedas = [];
+
+var i = 0;
+while( i<dialogs.length) {
+
+    if (dialogs[i].message.chat_id != null){
+        
+        var beseda_id = dialogs[i].message.chat_id;
+        var beseda_title = dialogs[i].message.title;
+        var beseda_body = dialogs[i].message.body;
+        var beseda_date = dialogs[i].message.date;
+        
+        var beseda_photos_src = [];
+        
+        var chatUsers = API.messages.getChatUsers({
+            chat_id: dialogs[i].message.chat_id , 
+            fields: "photo_200"
+        });
+        
+        var j = 0;
+        
+        while(j<chatUsers.length && j<4){
+            
+            beseda_photos_src.push(chatUsers[j].photo_200);
+            
+            j = j + 1;
+        }
+        
+        var beseda_photos = {
+            count: beseda_photos_src.length,
+            photos: beseda_photos_src
+        };
+        
+        if (beseda_photos_src.length == 0 ) {
+            beseda_photos = null;
+        }
+        
+        besedas.push({
+             "beseda_id": beseda_id ,
+             "beseda_title": beseda_title ,
+             "beseda_body": beseda_body ,
+             "beseda_date": beseda_date ,
+             "beseda_photos": beseda_photos
+        });
+        
+    }
+    
+    i = i + 1;
+}
+
+var offset  = Args.offset;
+
+var count = Args.count;
+
+
+if (offset == null) {
+    offset = 0;
+}
+
+if (count == null) {
+    count = 0;
+}
+
+var result =  besedas.slice(offset, parseInt(offset) + parseInt(count));
+return {"count": result.length ,
+        "result": result  };
