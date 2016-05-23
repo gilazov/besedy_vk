@@ -31,11 +31,11 @@ import java.util.List;
  */
 
 public class VkService {
-    public static final int CHATS_COUNT = 20;//по сколько данных грузить
+    public static final int CHATS_COUNT = 10;//по сколько данных грузить
     private static final String COUNT = "count";
     private static final String OFFSET = "offset";
 
-    public static void getBesedasWithListener(int offset, final GetBesedasResultListener listener){
+    public static void getBesedasWithListener(int offset, final GetBesedasResultListener listener) {
 
         final List<Beseda> resultList = new ArrayList<>();
 
@@ -46,14 +46,19 @@ public class VkService {
             public void onError(VKError error) {
                 super.onError(error);
                 listener.onError(error);
-                Log.d("TAG", "onError: " + error.toString());
+                Log.d("VK_BESEDY", "onError: " + error.toString());
             }
 
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 JSONObject responseJson = response.json;
-                Log.d("TAG", "onComplete: "+response.json.toString());
+                Log.d("VK_BESEDY", "onComplete: "+response.json.toString());
 
                 try {
                     //int count = responseJson.getInt("count");
@@ -88,6 +93,7 @@ public class VkService {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
 
                 listener.onComplete(resultList);
             }

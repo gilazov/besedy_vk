@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,9 +113,13 @@ public class BesedaListFragment extends Fragment implements BesedaListFragmentVi
     @Override
     public void setItems(List<Beseda> result , int scrollPosition) {
         recyclerView.setAdapter(new BesedaRecyclerViewAdapter(getContext(), result));
-        recyclerView.getAdapter().notifyDataSetChanged();
-        if (scrollPosition < recyclerView.getAdapter().getItemCount())
-        recyclerView.scrollToPosition(scrollPosition);
+        Log.d("VK_BESEDY", "Setitems scrollTOPosition = " + scrollPosition);
+        if (scrollPosition ==0) {
+          recyclerView.getAdapter().notifyDataSetChanged();
+        }else {
+            recyclerView.getAdapter().notifyItemInserted(scrollPosition);
+       }
+
     }
 
     @Override
