@@ -52,11 +52,7 @@ public class VkService {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+
                 JSONObject responseJson = response.json;
                 Log.d("VK_BESEDY", "onComplete: "+response.json.toString());
 

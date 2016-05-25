@@ -25,6 +25,10 @@ public class BesedaRecyclerViewAdapter extends RecyclerView.Adapter<BesedaRecycl
         this.ctx = ctx;
     }
 
+    public void addItems(List<Beseda> additionItems){
+        mValues.addAll(additionItems);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())

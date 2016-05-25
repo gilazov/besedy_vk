@@ -48,7 +48,7 @@ public class PostListFragmentPresenterImpl implements PostListFragmentPresenter,
             postRepository.getBesedas(this);
         }else {
             if (view!=null) {
-                view.setItems(viewPosts, 0);
+                view.setItems(viewPosts, false);
                 view.showProgress(false);
             }
         }
@@ -82,35 +82,46 @@ public class PostListFragmentPresenterImpl implements PostListFragmentPresenter,
         switch (responseCode) {
             case BesedaRepository.FULL_DATA_RESPONSE :
                 if (items.size()!=0) {
-                    view.setItems(items, 0);
                     viewPosts.clear();
                     viewPosts.addAll(items);
-                    view.setInfiniteEnable(true);
-                    view.showEmptyView(false);
+                    if (view!=null) {
+                        view.setItems(items, false);
+                        view.setInfiniteEnable(true);
+                        view.showEmptyView(false);
+                    }
                 }else {
-                    view.showEmptyView(true);
-                    view.setInfiniteEnable(false);
+                    if (view!=null) {
+                        view.showEmptyView(true);
+                        view.setInfiniteEnable(false);
+                    }
                 }
                 break;
             case BesedaRepository.MORE_DATA_RESPONSE:
-                int offset = viewPosts.size();
                 viewPosts.addAll(items);
-                view.setItems(viewPosts, offset);
-                view.showInfiniteProgress(false);
-                view.setInfiniteEnable(true);
+                if (view!=null) {
+                    view.setItems(items, true);
+                    view.setInfiniteEnable(true);
+                }
                 break;
             case BesedaRepository.MORE_DATA_RESPONSE_END_OF_LIST:
-                view.setInfiniteEnable(false);
+                if (view!=null) {
+                    view.setInfiniteEnable(false);
+                }
                 break;
         }
-        view.showProgress(false);
+        if (view!=null) {
+            view.showInfiniteProgress(false);
+            view.showProgress(false);
+        }
     }
 
     @Override
     public void onError(String errorMessage) {
-        view.showProgress(false);
-        view.showInfiniteProgress(false);
-        view.showErrorMessage(errorMessage);
+        if (view!=null) {
+            view.showProgress(false);
+            view.showInfiniteProgress(false);
+            view.showErrorMessage(errorMessage);
+        }
    }
 
 }

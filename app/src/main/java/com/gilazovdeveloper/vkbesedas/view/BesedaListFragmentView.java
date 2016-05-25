@@ -11,7 +11,7 @@ public interface BesedaListFragmentView {
      void refreshData();
      void showProgress(boolean isProgress);
      void showInfiniteProgress(boolean isProgress);
-     void setItems(List<Beseda> result, int position);
+     void setItems(List<Beseda> result, boolean isLoadMore);
      void loadMoreItems();
      void setInfiniteEnable(boolean b);
      void showEmptyView(boolean b);

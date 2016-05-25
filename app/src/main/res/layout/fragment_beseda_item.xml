@@ -14,7 +14,8 @@
         android:layout_marginRight="8dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        android:src="@android:drawable/presence_invisible" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -78,7 +78,7 @@ public class BesedaListFragment extends Fragment implements BesedaListFragmentVi
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         emptyView = (TextView) view.findViewById(R.id.emptyView);
-        recyclerView.setOnScrollListener(new InfiniteScrollListener(layoutManager, infiniteManager) {
+        recyclerView.addOnScrollListener(new InfiniteScrollListener(layoutManager, infiniteManager) {
             @Override
             public void onLoadMore() {
                 loadMoreItems();
@@ -111,15 +111,14 @@ public class BesedaListFragment extends Fragment implements BesedaListFragmentVi
     }
 
     @Override
-    public void setItems(List<Beseda> result , int scrollPosition) {
-        recyclerView.setAdapter(new BesedaRecyclerViewAdapter(getContext(), result));
-        Log.d("VK_BESEDY", "Setitems scrollTOPosition = " + scrollPosition);
-        if (scrollPosition ==0) {
-          recyclerView.getAdapter().notifyDataSetChanged();
-        }else {
-            recyclerView.getAdapter().notifyItemInserted(scrollPosition);
-       }
-
+    public void setItems(List<Beseda> result , boolean loadMore) {
+        if (!loadMore){
+            recyclerView.setAdapter(new BesedaRecyclerViewAdapter(getContext(), result));
+        }else{
+            ((BesedaRecyclerViewAdapter)recyclerView.getAdapter()).addItems(result);
+        }
+        recyclerView.getAdapter().notifyDataSetChanged();
+        Log.d("VK_BESEDY", "isLoadMore = " + loadMore + "items = " + result.size());
     }
 
     @Override
