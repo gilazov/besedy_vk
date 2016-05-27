@@ -14,11 +14,17 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.gilazovdeveloper.vkbesedas.R;
 
 import java.util.LinkedList;
 import java.util.List;
 
-
+/*
+* получаем список картинок,загружаем их в list используя glide
+* далее в зависимости от количества картинок склеиваем их и setImage
+*
+*
+* */
 public class TileImageView extends ImageView
 {
     List<String> images;
@@ -48,6 +54,10 @@ public class TileImageView extends ImageView
         picturesCount = images.size();
         leftPicturesCount = picturesCount;
 
+        if (images.size()==0) {
+            setImageDrawable(getResources().getDrawable(R.drawable.ic_camera_enhance_black_24dp));
+        }
+
         for (int i = 0; i < picturesCount; i++) {
 
             Glide
@@ -58,12 +68,13 @@ public class TileImageView extends ImageView
                         @Override
                         public void onLoadFailed(Exception e, Drawable errorDrawable) {
                             super.onLoadFailed(e, errorDrawable);
-                            Log.d("NAT", "onLoadFailed: "+e.toString());
+                            Log.d("TAG", "onLoadFailed: "+e.toString());
+                            setImageDrawable(getResources().getDrawable(R.drawable.ic_camera_enhance_black_24dp));
                         }
 
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
-                            Log.d("NAT", "onResourceReady: ");
+                            Log.d("TAG", "onResourceReady: ");
                             bitmaps.add(bitmap);
                             leftPicturesCount--;
                             if (leftPicturesCount == 0){
@@ -77,14 +88,16 @@ public class TileImageView extends ImageView
 
     public void showBitmap(int pictureSize){
         setImageBitmap(buildBitmap(bitmaps, pictureSize, false));
+        bitmaps.clear();
     }
 
     public Bitmap buildBitmap(List<Bitmap> bitmaps, int bitmapSize, boolean alpha) {
 
         Bitmap finalBitmap = Bitmap.createBitmap( bitmapSize , bitmapSize, (alpha) ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
-
+        Log.d("TAG", "buildBitmap: black bitmap. Bitmap List Size = " +bitmaps.size());
         switch (bitmaps.size()) {
             case 1:
+                Log.d("TAG", "buildBitmap:1 ");
                 return bitmaps.get(0);
             case 2: {
 
@@ -104,7 +117,7 @@ public class TileImageView extends ImageView
                         bitmapSize * 3 / 4, bitmapSize);
 
                 canvas.drawBitmap(croppedBitmap, bitmapSize / 2, 0, new Paint());
-
+                Log.d("TAG", "buildBitmap:2");
                 return finalBitmap;
             }
 
@@ -126,7 +139,7 @@ public class TileImageView extends ImageView
                 tmpBitmap = bitmaps.get(2);
                 croppedBitmap = Bitmap.createScaledBitmap(tmpBitmap, bitmapSize / 2, bitmapSize / 2, true);
                 canvas.drawBitmap(croppedBitmap, bitmapSize / 2, bitmapSize / 2, new Paint());
-
+                Log.d("TAG", "buildBitmap:3");
                 return finalBitmap;
             }
 
@@ -150,7 +163,7 @@ public class TileImageView extends ImageView
                 tmpBitmap = bitmaps.get(3);
                 croppedBitmap = Bitmap.createScaledBitmap(tmpBitmap, bitmapSize / 2, bitmapSize / 2, false);
                 canvas.drawBitmap(croppedBitmap, 0, bitmapSize / 2, new Paint());
-
+                Log.d("TAG", "buildBitmap:4");
                 return finalBitmap;
 
             }

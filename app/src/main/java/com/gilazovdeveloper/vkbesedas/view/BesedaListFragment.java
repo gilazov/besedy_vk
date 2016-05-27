@@ -78,6 +78,8 @@ public class BesedaListFragment extends Fragment implements BesedaListFragmentVi
         layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         emptyView = (TextView) view.findViewById(R.id.emptyView);
+        recyclerView.setHasFixedSize(true);
+
         recyclerView.addOnScrollListener(new InfiniteScrollListener(layoutManager, infiniteManager) {
             @Override
             public void onLoadMore() {

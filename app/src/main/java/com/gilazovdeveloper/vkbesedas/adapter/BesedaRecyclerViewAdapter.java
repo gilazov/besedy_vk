@@ -37,6 +37,11 @@ public class BesedaRecyclerViewAdapter extends RecyclerView.Adapter<BesedaRecycl
     }
 
     @Override
+    public boolean onFailedToRecycleView(ViewHolder holder) {
+        return true;
+    }
+
+    @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final Beseda beseda = mValues.get(position);
 

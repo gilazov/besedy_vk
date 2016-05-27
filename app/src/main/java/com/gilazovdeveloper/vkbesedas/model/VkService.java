@@ -31,7 +31,7 @@ import java.util.List;
  */
 
 public class VkService {
-    public static final int CHATS_COUNT = 10;//по сколько данных грузить
+    public static final int CHATS_COUNT = 20;//количество чатов на 1 порцию данных
     private static final String COUNT = "count";
     private static final String OFFSET = "offset";
 
